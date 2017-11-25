@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CafeBeans的胡言乱语" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="单例模式，相信很多开发者应该都很熟悉了，甚至都能够把写法轻而易举默写出来 ，但是对于资历尚浅的我来说，在做lintcode的一道要求实现单例的题目的时候，发现要完整的写出一个没有漏洞的单例，还是有点吃力的，看过很多优秀的博客，对单例的描述目前觉得好的主要有刘伟博士的设计模式系列以及wuchong的如何正确地写出单例模式">
+<meta name="keywords" content="Java,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊单例">
+<meta property="og:url" content="http://cafebeans.com/2017/06/04/聊聊单例/index.html">
+<meta property="og:site_name" content="CafeBeans的胡言乱语">
+<meta property="og:description" content="单例模式，相信很多开发者应该都很熟悉了，甚至都能够把写法轻而易举默写出来 ，但是对于资历尚浅的我来说，在做lintcode的一道要求实现单例的题目的时候，发现要完整的写出一个没有漏洞的单例，还是有点吃力的，看过很多优秀的博客，对单例的描述目前觉得好的主要有刘伟博士的设计模式系列以及wuchong的如何正确地写出单例模式。本文也是结合这两篇博客再融入自己的理解而成，会更多的关注实现单例的方法背后一些">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-20T15:12:22.855Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊单例">
+<meta name="twitter:description" content="单例模式，相信很多开发者应该都很熟悉了，甚至都能够把写法轻而易举默写出来 ，但是对于资历尚浅的我来说，在做lintcode的一道要求实现单例的题目的时候，发现要完整的写出一个没有漏洞的单例，还是有点吃力的，看过很多优秀的博客，对单例的描述目前觉得好的主要有刘伟博士的设计模式系列以及wuchong的如何正确地写出单例模式。本文也是结合这两篇博客再融入自己的理解而成，会更多的关注实现单例的方法背后一些">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cafebeans.com/2017/06/04/聊聊单例/"/>
+
+
+
+
+
+  <title>聊聊单例 | CafeBeans的胡言乱语</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CafeBeans的胡言乱语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">世事洞明皆学问，人情练达即文章</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cafebeans.com/2017/06/04/聊聊单例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CafeBeans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CafeBeans的胡言乱语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">聊聊单例</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T10:36:13+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术探究/" itemprop="url" rel="index">
+                    <span itemprop="name">技术探究</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/聊聊单例/" class="leancloud_visitors" data-flag-title="聊聊单例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>单例模式，相信很多开发者应该都很熟悉了，甚至都能够把写法轻而易举默写出来 ，但是对于资历尚浅的我来说，在做lintcode的一道要求实现单例的题目的时候，发现要完整的写出一个没有漏洞的单例，还是有点吃力的，看过很多优秀的博客，对单例的描述目前觉得好的主要有刘伟博士的<a href="http://blog.csdn.net/lovelion/article/details/17517213" target="_blank" rel="noopener">设计模式系列</a>以及wuchong的<a href="http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/" target="_blank" rel="noopener">如何正确地写出单例模式</a>。<br>本文也是结合这两篇博客再融入自己的理解而成，会更多的关注实现单例的方法背后一些设计的思想以及细节。<br><a id="more"></a></p>
+<h2 id="循例介绍单例"><a href="#循例介绍单例" class="headerlink" title="循例介绍单例"></a>循例介绍单例</h2><h3 id="单例模式是什么"><a href="#单例模式是什么" class="headerlink" title="单例模式是什么"></a>单例模式是什么</h3><p>顾名思义，单例模式，就是单个实例，在软件系统中的某个类只有唯一的一个实例，是独一无二的。在软件系统中，这个单一实例在创建成功之后，我们就不能再创建一个同类型的其他对象实例了，之后所有的操作都基于这个唯一实例。<br>在设计模式中，单例模式被归类为对象创建型模式，为我们创建单一实例的软件设计提供了思路。</p>
+<h3 id="实现单例注意事项"><a href="#实现单例注意事项" class="headerlink" title="实现单例注意事项"></a>实现单例注意事项</h3><p>在单例模式中，关键点在于如何确保对象的唯一性：</p>
+<p>回想下一般我们在创建对象的时候，一般不都是直接new一个对象出来吗？那也就是说，如果外部系统可以在想要的时候随时随地new出对象的话，那么这个类不就有可能同时存在多对象实例了吗，为了杜绝这种现象</p>
+<ul>
+<li>第一步：把构造函数的访问权限改为private，禁止直接从外部new对象实例</li>
+</ul>
+<p>那么问题来了，既然外部无法创建，那就只能靠内部创建并向外提供了，这就要求有一个维护该类实例的状态变量，始终唯一且时刻维护着该实例的状态，而且，为了保证封装性，我们把该变量设为private,只允许类内部访问。还有一个重点在于，必须把该变量设置为static的，为什么呢？如果是non-static的话，也就意味着，必须要先创建一个实例，才能进一步访问变量，然而并不允许外部创建实例，内部创建只会陷入恶性循环中，还会因产生用于访问的额外实例而破坏单一实例原则，也不优雅。因此，</p>
+<ul>
+<li>第二步：定义某个类型的静态私有成员变量</li>
+</ul>
+<p>现在，就剩下如何解决向外界提供该实例变量的问题了。我们可以专门写一个返回该类型变量的方法，而且为了能够保证外界直接访问，必须设置为公有静态的。该方法负责返回一直保存着的唯一实例，如果为null，则创建一个实例。所以，</p>
+<ul>
+<li>第三步：增加获取唯一实例的公有静态方法</li>
+</ul>
+<p>好了，基于以上几个步骤，我们可以写出最简单的单例了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Singleton &#123;</span><br><span class="line">    private static Singleton instance = null;</span><br><span class="line"></span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static Singleton getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance = new Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以综合一下，单例模式确保对象唯一性其实也就三个要点：<br>类中只能有唯一一个实例(禁止外部new、私有静态成员变量维护单一实例)；<br>必须自行创建这个实例(校验单一实例是否为空)；<br>自行向外部系统提供该实例(公有静态方法供外界访问)</p>
+<p><img src="" alt=""></p>
+<h2 id="如何正确实现单例"><a href="#如何正确实现单例" class="headerlink" title="如何正确实现单例"></a>如何正确实现单例</h2><p>仔细想想，上述单例的最简单实现真的就能够确保对象的唯一性了吗？在高并发情况下呢？由于系统中只有一个实例，getInstance()方法不可避免的会被并发调用。如果有一个线程A，调用了getInstance()方法，在new Singleton()的过程中，另外一个线程B也调用getInstance()方法，此时由于A还没有创建实例，B认为instance为空，结果又创建了一个instance对象，最后系统中就出现了两个实例，也就说明，上述最简单实现是线程不安全的，对整个系统是致命的。所以必须思考如何在多线程环境中仍然保证对象的唯一性</p>
+<h3 id="饿汉式VS懒汉式"><a href="#饿汉式VS懒汉式" class="headerlink" title="饿汉式VS懒汉式"></a>饿汉式VS懒汉式</h3><h4 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h4><p>认真想想，如果每个线程一开始拿到的就是创建好的唯一实例，不需要每个线程都进行非空判断并创建实例，那不就可以确保对象的唯一性了吗？因此就有了一种饿汉式单例的写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Singleton &#123;</span><br><span class="line">    private static final Singleton instance = new Singleton();</span><br><span class="line"></span><br><span class="line">    private  Singleton()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在类加载的时候，静态变量instance就被初始化成单一实例了，此后每次调用getInstance()方法，得到的都是初始化时创建的实例，确保了对象的唯一性。<br>虽然饿汉式单例实现简单，但是由于其一加载就初始化的特性，如果getInstance()始终没有被调用，则会浪费了很多创建对象时所消耗的系统资源，而且如果instance的创建依赖于某些配置文件和参数，必须先读取配置文件设置参数才能正确创建的话，那么饿汉式就无用武之地了</p>
+<h4 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h4><p>懒汉式单例是一种延迟加载的实现，当需要的时候才会创建实例，正如最简单实现版本那样，但是又会有令人头疼的并发问题。回想一下我们在处理并发问题的时候，为了防止多线程同时访问，会用synchronized关键字加锁，于是单例实现可以写成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Singleton &#123;</span><br><span class="line">    private static Singleton instance = null;</span><br><span class="line"></span><br><span class="line">    private  Singleton()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static synchronized Singleton getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance = new Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过synchronized关键字有时候是一个万恶的存在，因为在高并发环境下，每个线程等待的时间会越来越长，系统性能也会越来越低，当然并发编程领域发展到了今天对锁有更多更好的实现策略，如显式锁之类的，而使用synchronized关键字也是有优化的。这也就引出了接下来要讨论的双重检查锁。</p>
+<h3 id="双重检查锁"><a href="#双重检查锁" class="headerlink" title="双重检查锁"></a>双重检查锁</h3><p>我们会发现，其实并没有必要把所有线程都阻隔在判断之前，只有那些实例判断为空的线程才需要等待锁，判断不为空的其实可以直接返回单一实例，节省平均等待时间。因此，可以使用同步块来优化懒汉式加载，但是也需要注意一个问题，如果多个线程同时判断为空，进入同步块内等待锁，当其中一个线程成功创建对象实例后，另外那些等待线程并不知道对象实例已经创建，各自线程都会新建一个实例，这就破坏了单例原则，因此，在同步块内还需要增加一层非空判断，当其他线程获得锁之后，再次校验发现对象实例已经存在，就不会再创建实例，进而确保对象的唯一性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Singleton &#123;</span><br><span class="line">    private static Singleton instance = null;</span><br><span class="line">    private  Singleton()&#123;&#125;</span><br><span class="line">    public static synchronized Singleton getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            synchronized (Singleton.class)&#123;</span><br><span class="line">                if(instance==null)&#123;</span><br><span class="line">                    instance = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说实话，一开始我也以为上面的代码已经很完美的了，在这里特别感谢wuchong博客的一些提点，主要是JVM相关。<br>以下引用下博客原话：</p>
+<blockquote>
+<p>主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。<br>1.给 instance 分配内存<br>2.调用 Singleton 的构造函数来初始化成员变量<br>3.将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）<br>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
+</blockquote>
+<p>解决方法也很简单，使用volatile关键字声明变量，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static volatile Singleton instance = null;</span><br></pre></td></tr></table></figure></p>
+<p>再一次感谢wuchong，原来</p>
+<blockquote>
+<p>有些人认为使用 volatile 的原因是可见性，也就是可以保证线程在本地不会存有 instance 的副本，每次都是去主内存中读取。但其实是不对的。使用 volatile 的主要原因是其另一个特性：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。比如上面的例子，取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3 然后取到值的情况。从「先行发生原则」的角度理解的话，就是对于一个 volatile 变量的写操作都先行发生于后面对这个变量的读操作（这里的“后面”是时间上的先后顺序）。<br>但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</p>
+</blockquote>
+<p>不过也需要注意，由于volatile禁止指令重排序优化，所以会导致系统运行效率降低，也需要慎用</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>有没有方法可以既能实现延迟加载，又不需要担心线程安全问题呢？《Effective Java》上推荐静态内部类这种方法，也备受挺多人好评的。然而自己对内部类真的不熟悉，所以<br>先通过一篇<a href="http://blog.csdn.net/shaw1994/article/details/48378471" target="_blank" rel="noopener">博客</a>回顾下内部类相关知识点</p>
+<p>这种使用静态内部类的技术也被成为IoDH——Initialization Demand Holder，单例实现如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Singleton &#123;</span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然静态内部类写在外部类里面，但是可以看做是两个相互独立的类。因此，当我们在加载Singleton时，并不会马上加载SingletonHolder,利用了静态初始化特性实现了instance的延迟加载。当第一次调用getInstance()时才加载内部类SinlgetonHolder，由于在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，并由Java虚拟机来保证其线程安全性，且确保该静态成员变量只能初始化一次。由于getInstance()方法没有任何线程锁定，因此其性能不会造成任何影响。<br>乍一看，目前最好的单例实现方式应该就是静态内部类了吧。不过也要慎重，不是所有面向对象语言都像Java一样支持静态内部类的写法。</p>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>还有一种枚举实现，不过由于很少使用枚举，所以不太熟悉，不过会用的话，写单例真的超级简单<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//定义</span><br><span class="line">enum Singleton&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    void doSomething()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">//使用</span><br><span class="line">public class SingletonTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Singleton.INSTANCE.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>枚举单例是《Effective Java》作者推荐使用的方法，优点：不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象。在《Java与模式》中，作者这样写道，使用枚举来实现单实例控制会更加简洁，而且无偿地提供了序列化机制，并由JVM从根本上提供保障，绝对防止多次实例化，是更简洁、高效、安全的实现单例的方式。</p>
+<h3 id="单例实现方式小结"><a href="#单例实现方式小结" class="headerlink" title="单例实现方式小结"></a>单例实现方式小结</h3><p>以上列举了几种单例的实现方式，涉及了一些线程安全、延迟加载、静态内部类、枚举等知识点，才发觉原本以为很简单的单例是这么的复杂。归结一下这些实现方式，都是在利用着不同的技术来确保对象的唯一性，也就是那三个要点。没有最好的方式，以后应该也会有更多更优雅的实现方式。就目前来说，能避免多线程同步问题尽量去避免，如果不要求延迟加载，饿汉方式也是不错的选择，静态内部类应该是最常见的方式了吧，如果涉及反序列化创建对象的话,枚举很优雅。</p>
+<h2 id="单例模式常见应用场景以及注意事项"><a href="#单例模式常见应用场景以及注意事项" class="headerlink" title="单例模式常见应用场景以及注意事项"></a>单例模式常见应用场景以及注意事项</h2><h3 id="单例模式优缺点"><a href="#单例模式优缺点" class="headerlink" title="单例模式优缺点"></a>单例模式优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>在内存中只有一个对象，可以节省内存空间</li>
+<li>避免频繁创建销毁对象，可以提高性能</li>
+<li>避免对共享资源的多重占用，避免对同一资源文件同时操作造成文件状态不一致</li>
+<li>可设置全局访问，优化和共享资源的访问</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>没有抽象层，难扩展</li>
+<li>违背<a href="https://gof.quanke.name/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B9%8B%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99.html" target="_blank" rel="noopener">单一职责原则</a></li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>由于单例模式具有的优点，因此可广泛用于节约系统资源、提升响应性能、保持共享资源状态一致等场景中，如：<br>1.操作系统的文件系统，占用空间大且需保证文件状态一致<br>2.数据库连接池和线程池等，避免频繁创建销毁数据库连接或线程<br>3.任务管理器和回收站，保证共享资源状态一致<br>4.网站计数器，计数器为共享资源<br>5.应用程序的日志文件和配置文件的操作对象，共享资源保持状态一致</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>1.使用单例类提供的方法来获取单例对象，切记不要使用反射，因为反射会实例化一个新对象<br>2.多线程使用单例操作共享资源，注意线程安全问题<br>3.不要做断开单例类对象与类中静态引用的危险操作，否则单例对象会被JVM回收。更多阅读<a href="http://wiki.jikexueyuan.com/project/java-design-pattern/singleton-discuss.html" target="_blank" rel="noopener">单例模式与垃圾收集</a></p>
+<h2 id="拓展——多例模式"><a href="#拓展——多例模式" class="headerlink" title="拓展——多例模式"></a>拓展——多例模式</h2><p>有了单例模式的一些实现思路，我们能否实现固定数量的多例呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class MultiInstance&#123;</span><br><span class="line">	//实例数量</span><br><span class="line">	private static int maxNum = 3;</span><br><span class="line">	private static ArrayList&lt;MultiInstance&gt; instanceList = new Array&lt;MultiInstance&gt;();</span><br><span class="line">    //产生3个实例对象</span><br><span class="line">	static&#123;</span><br><span class="line">		for(int i=0;i&lt;maxNum;i++)&#123;</span><br><span class="line">			instanceList.add(new MultiInstance());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	private MultiInstance()&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	public static ArrayList&lt;MultiInstance&gt; getInstanceList()&#123;</span><br><span class="line">		return instanceList;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述多例实现属于饿汉式加载，可以参考数据库连接池或者线程池的实现了解更多</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>单例设计模式给我们创建单例对象提供了很好的思路，不过在实际开发环境中，我们不要把眼光局限在创建一个单例对象上，更要把目光放在单例对象的实际行为上。在web容器下，每个请求都会对应一个线程进行处理，而单例对象，例如数据库连接池等等，在高并发下如何表现出正确的行为也是值得思考的地方。正如刘伟博客的负载均衡器例子，负载均衡器功能实现思路的相关算法也需要好好研究。</p>
+<h2 id="Read-More"><a href="#Read-More" class="headerlink" title="Read More"></a>Read More</h2><p><a href="http://javarevisited.blogspot.sg/2011/03/10-interview-questions-on-singleton.html#axzz4j9DKIyHP" target="_blank" rel="noopener">10 Singleton Pattern Interview Questions in Java</a><br><a href="http://blog.csdn.net/lovelion/article/details/17517213" target="_blank" rel="noopener">设计模式系列</a><br><a href="http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/" target="_blank" rel="noopener">如何正确地写出单例模式</a><br><a href="http://wiki.jikexueyuan.com/project/java-design-pattern/singleton-pattern.html" target="_blank" rel="noopener">单例模式——极客学院Wiki</a><br><a href="http://www.cnblogs.com/BrainDeveloper/p/3192417.html" target="_blank" rel="noopener">单例模式应用场景</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的欣赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat_pay.png" alt="CafeBeans 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CafeBeans 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CafeBeans
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://cafebeans.com/2017/06/04/聊聊单例/" title="聊聊单例">http://cafebeans.com/2017/06/04/聊聊单例/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/01/愿我走出半生，归来仍是少年/" rel="next" title="願我走出半生，归来仍是少年">
+                <i class="fa fa-chevron-left"></i> 願我走出半生，归来仍是少年
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/05/校招准备/" rel="prev" title="一场校招准备分享的笔记与心得">
+                一场校招准备分享的笔记与心得 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="CafeBeans" />
+            
+              <p class="site-author-name" itemprop="name">CafeBeans</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/CafeBeans" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/pang-jue-wei-27" target="_blank" title="知乎">
+                    
+                      <i class="fa fa-fw fa-book"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://music.163.com/#/user/home?id=77815665" target="_blank" title="网易云音乐">
+                    
+                      <i class="fa fa-fw fa-music"></i>网易云音乐</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/b35d4190a575" target="_blank" title="简书">
+                    
+                      <i class="fa fa-fw fa-pencil"></i>简书</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.wmxfe.com/" title="名昕的个人博客" target="_blank">名昕的个人博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#循例介绍单例"><span class="nav-number">1.</span> <span class="nav-text">循例介绍单例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式是什么"><span class="nav-number">1.1.</span> <span class="nav-text">单例模式是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现单例注意事项"><span class="nav-number">1.2.</span> <span class="nav-text">实现单例注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何正确实现单例"><span class="nav-number">2.</span> <span class="nav-text">如何正确实现单例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉式VS懒汉式"><span class="nav-number">2.1.</span> <span class="nav-text">饿汉式VS懒汉式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#饿汉式"><span class="nav-number">2.1.1.</span> <span class="nav-text">饿汉式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#懒汉式"><span class="nav-number">2.1.2.</span> <span class="nav-text">懒汉式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双重检查锁"><span class="nav-number">2.2.</span> <span class="nav-text">双重检查锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态内部类"><span class="nav-number">2.3.</span> <span class="nav-text">静态内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">2.4.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例实现方式小结"><span class="nav-number">2.5.</span> <span class="nav-text">单例实现方式小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式常见应用场景以及注意事项"><span class="nav-number">3.</span> <span class="nav-text">单例模式常见应用场景以及注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式优缺点"><span class="nav-number">3.1.</span> <span class="nav-text">单例模式优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">3.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">3.1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">3.2.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">3.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展——多例模式"><span class="nav-number">4.</span> <span class="nav-text">拓展——多例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-More"><span class="nav-number">6.</span> <span class="nav-text">Read More</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  
+  <span class="author" itemprop="copyrightHolder">CafeBeans</span>
+  
+</div>
+<div class="powered-by">
+	<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+	本站访客数:<span id="busuanzi_value_site_uv"></span>
+	</span>
+	
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">博客全站共字</span>
+    
+    
+</div>
+<br>
+
+
+
+
+
+
+
+<div class="powered-by">
+	<span class="post-meta-item-text">相识便是缘，感谢一路有你</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("1cwIm1xNLKwJeX3t0HJlDnvW-gzGzoHsz", "EL5hsMfIfyHcVeY90H95xLm8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

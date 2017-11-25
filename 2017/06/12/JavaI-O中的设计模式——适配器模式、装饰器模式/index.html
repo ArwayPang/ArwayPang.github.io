@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CafeBeans的胡言乱语" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在朋友的推荐下，机缘巧合的发现了一个挺不错的知乎专栏进击的Java新人，觉得作者对一些Java概念与运用的理解很透彻，也通俗易懂，对我的Java学习很有帮助。看到装饰器模式与适配器模式那一章节的时候，还结合了JavaI/O流去讲解，给我回顾JavaI/O流提供了新的思路。于是稍微总结了一下JavaIO流，以及其中运用到">
+<meta name="keywords" content="Java,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaI&#x2F;O体系及当中设计模式的运用">
+<meta property="og:url" content="http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/index.html">
+<meta property="og:site_name" content="CafeBeans的胡言乱语">
+<meta property="og:description" content="在朋友的推荐下，机缘巧合的发现了一个挺不错的知乎专栏进击的Java新人，觉得作者对一些Java概念与运用的理解很透彻，也通俗易懂，对我的Java学习很有帮助。看到装饰器模式与适配器模式那一章节的时候，还结合了JavaI/O流去讲解，给我回顾JavaI/O流提供了新的思路。于是稍微总结了一下JavaIO流，以及其中运用到的设计模式。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201302/28/1362066399_9469.jpg">
+<meta property="og:image" content="http://my.csdn.net/uploads/201204/04/1333528185_7832.gif">
+<meta property="og:updated_time" content="2017-11-20T15:12:22.855Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaI&#x2F;O体系及当中设计模式的运用">
+<meta name="twitter:description" content="在朋友的推荐下，机缘巧合的发现了一个挺不错的知乎专栏进击的Java新人，觉得作者对一些Java概念与运用的理解很透彻，也通俗易懂，对我的Java学习很有帮助。看到装饰器模式与适配器模式那一章节的时候，还结合了JavaI/O流去讲解，给我回顾JavaI/O流提供了新的思路。于是稍微总结了一下JavaIO流，以及其中运用到的设计模式。">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201302/28/1362066399_9469.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/"/>
+
+
+
+
+
+  <title>JavaI/O体系及当中设计模式的运用 | CafeBeans的胡言乱语</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CafeBeans的胡言乱语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">世事洞明皆学问，人情练达即文章</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CafeBeans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CafeBeans的胡言乱语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JavaI/O体系及当中设计模式的运用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T23:20:38+08:00">
+                2017-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术探究/" itemprop="url" rel="index">
+                    <span itemprop="name">技术探究</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/" class="leancloud_visitors" data-flag-title="JavaI/O体系及当中设计模式的运用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在朋友的推荐下，机缘巧合的发现了一个挺不错的知乎专栏<a href="https://zhuanlan.zhihu.com/hinus" target="_blank" rel="noopener">进击的Java新人</a>，觉得作者对一些Java概念与运用的理解很透彻，也通俗易懂，对我的Java学习很有帮助。看到装饰器模式与适配器模式<a href="https://zhuanlan.zhihu.com/p/24457041" target="_blank" rel="noopener">那一章节</a>的时候，还结合了JavaI/O流去讲解，给我回顾JavaI/O流提供了新的思路。于是稍微总结了一下JavaIO流，以及其中运用到的设计模式。<br><a id="more"></a></p>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><p>先了解下在JavaIO中用到的适配器模式与装饰模式</p>
+<h3 id="适配器模式——协调互不兼容的结构"><a href="#适配器模式——协调互不兼容的结构" class="headerlink" title="适配器模式——协调互不兼容的结构"></a>适配器模式——协调互不兼容的结构</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>适配器模式，属于结构型模式之一，用于协调互不兼容的结构。<br>在生活中，我们常常会碰到这样的情况，要给手机充电，得先找一个充电器来做电压的适配，否则就会烧掉。因此，适配器模式，就是在不改变现有对象结构的前提下，从中引入一个称为适配器的组件来协调双方，以相互支持。在手机，电源，充电器的关系中，充电器则作为适配器，毕竟我们不能更改手机工作电压和家庭标准电压嘛。<br>在软件开发过程中，同样会有各种互不兼容的接口和类库，我们就可以从中引入一个适配器，来使这些不兼容对象一起运作。</p>
+<blockquote>
+<p>在适配器模式中，我们通过增加一个新的适配器类来将一个接口转换为客户希望的另一个接口以解决接口不兼容的问题，使得原本没有任何关系的类可以协同工作。<br>根据适配器类与适配者类的关系不同，适配器模式可分为对象适配器和类适配器两种，在对象适配器模式中，适配器与适配者之间是关联关系；在类适配器模式中，适配器与适配者之间是继承（或实现）关系。在实际开发中，对象适配器的使用频率更高</p>
+</blockquote>
+<h4 id="对象适配器模式结构图"><a href="#对象适配器模式结构图" class="headerlink" title="对象适配器模式结构图"></a>对象适配器模式结构图</h4><p><img src="http://img.my.csdn.net/uploads/201302/28/1362066399_9469.jpg" alt=""></p>
+<p>在上述结构图中，客户Client需要的是一个Target接口实现一个request()方法，然而现在只有Adaptee接口specificRequest()方法可以使用，因此需要一个适配器Adapter，作为转换器对Adaptee和Target进行适配，维护一个Adaptee对象，进而可以在适配器中调用该对象的方法。</p>
+<p>结构图代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Adapter extends Target &#123;  </span><br><span class="line">    private Adaptee adaptee; //维持一个对适配者对象的引用  </span><br><span class="line"></span><br><span class="line">    public Adapter(Adaptee adaptee) &#123;  </span><br><span class="line">        this.adaptee=adaptee;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    public void request() &#123;  </span><br><span class="line">        adaptee.specificRequest(); //转发调用  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>仔细想想，我们能否在一个适配器里面适配多个适配者呢？当然可以，只需要在适配器里面维护多一个适配者对象引用就好了。也就相当于我们在充电器里面添加了一个高电压的插件，现在不仅可以选择充手机，还可以选择为大型电器持续供电了。</p>
+<h4 id="ReadMore"><a href="#ReadMore" class="headerlink" title="ReadMore"></a>ReadMore</h4><p><a href="https://gof.quanke.name/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F-Adapter%20Pattern.html" target="_blank" rel="noopener">适配器模式-Adapter Pattern</a></p>
+<h3 id="装饰模式——扩展系统的功能"><a href="#装饰模式——扩展系统的功能" class="headerlink" title="装饰模式——扩展系统的功能"></a>装饰模式——扩展系统的功能</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>装饰模式，结构型设计模式之一，用于扩展系统的功能。<br>作为技术控，有时候我们会经常自己升级电脑，给自己的电脑加固态什么的，这个时候，其实就是装饰模式的体现，在不改变一个对象本身功能的基础上给对象添加额外的新行为。而且装饰模式是一种比继承更好的技术，使用对象之间的关联关系取代类之间的继承关系，比继承更为灵活。</p>
+<blockquote>
+<p>装饰模式是一种用于替代继承的技术，它通过一种无须定义子类的方式来给对象动态增加职责，使用对象之间的关联关系取代类之间的继承关系。在装饰模式中引入了装饰类，在装饰类中既可以调用待装饰的原有类的方法，还可以增加新的方法，以扩充原有类的功能。</p>
+</blockquote>
+<p>其实也非常好理解，就是可以动态为对象增加额外能力嘛。</p>
+<h4 id="装饰模式结构图"><a href="#装饰模式结构图" class="headerlink" title="装饰模式结构图"></a>装饰模式结构图</h4><p><img src="http://my.csdn.net/uploads/201204/04/1333528185_7832.gif" alt=""></p>
+<p>在装饰模式中，为了让系统具有更好的灵活性和可扩展性，通常会定义一个抽象装饰类，而将具体的装饰类作为它的子类.<br>而且，由于具体构件与抽象装饰类都实现相同的抽象构件，因此对于客户端而言，装饰前后的构件是透明的，客户端察觉不出差别（装饰前是Component，装饰后仍然是Component），这种情况下我们还可以对已经装饰过的对象多次进行装饰。</p>
+<p>代码实现：<br>抽象装饰类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Decorator implements Component&#123;</span><br><span class="line"></span><br><span class="line">	//维持一个对抽象构件对象的引用</span><br><span class="line">    private Component component;  </span><br><span class="line"></span><br><span class="line">    //注入一个抽象构件类型的对象</span><br><span class="line">    public Decorator(Component component)&#123;</span><br><span class="line">        this.component=component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void operation()&#123;</span><br><span class="line">    	//调用原有业务方法</span><br><span class="line">        component.operation();  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体装饰类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class ConcreteDecorator extends Decorator&#123;</span><br><span class="line"></span><br><span class="line">    public ConcreteDecorator(Component  component)&#123;</span><br><span class="line">        super(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	public void operation()&#123;</span><br><span class="line">        super.operation();  //调用原有业务方法</span><br><span class="line">        addedBehavior();  //调用新增业务方法</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	//新增业务方法</span><br><span class="line">    public  void addedBehavior()&#123;    </span><br><span class="line">        ……</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ReadMore-1"><a href="#ReadMore-1" class="headerlink" title="ReadMore"></a>ReadMore</h4><p><a href="https://gof.quanke.name/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F-Decorator%20Pattern.html" target="_blank" rel="noopener">装饰模式-Decorator Pattern</a></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>在大致了解适配器模式与装饰模式后，我们知道适配器模式常用于协调不兼容的接口而装饰模式用于扩展功能。<br>接下来总结Java I/O流</p>
+<h2 id="Java-I-O流"><a href="#Java-I-O流" class="headerlink" title="Java I/O流"></a>Java I/O流</h2><h3 id="流的概念"><a href="#流的概念" class="headerlink" title="流的概念"></a>流的概念</h3><blockquote>
+<p>数据流是一串连续不断的数据的集合，就象水管里的水流，在水管的一端一点一点地供水，而在水管的另一端看到的是一股连续不断的水流。数据写入程序可以是一段、一段地向数据流管道中写入数据，这些数据段会按先后顺序形成一个长的数据流。对数据读取程序来说，看不到数据流在写入时的分段情况，每次可以读取其中的任意长度的数据，但只能先读取前面的数据后，再读取后面的数据（不能随机读取）。不管写入时是将数据分多次写入，还是作为一个整体一次写入，读取时的效果都是完全一样的。</p>
+</blockquote>
+<p><strong>概括一下，流就是有始有终、按序交付的数据序列。实际上，流对我们屏蔽了实际I/O设备处理数据的细节。</strong></p>
+<h4 id="基于字节的流：输入流InputStream与输出流OutputStream"><a href="#基于字节的流：输入流InputStream与输出流OutputStream" class="headerlink" title="基于字节的流：输入流InputStream与输出流OutputStream"></a>基于字节的流：输入流InputStream与输出流OutputStream</h4><p>Java类库的设计者从一开始，就限定了与输入有关的类都继承自InputStream以及与输出有关的所有类都继承自OutputStream，因此可以说Java复杂的IO流其实都是InputStream和OutputStream的变体。</p>
+<p>在JDK源码中，我们可以发现InputStream的定义为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public abstract class InputStream implements Closeable</span><br></pre></td></tr></table></figure></p>
+<p>所以，InputStream是实现了Closeable的抽象类，需要依靠子类才能实现功能。其中，Closeable接口规定了close()方法，也就是说，所有的输入流（输出流）在使用完毕后都是需要关闭的。</p>
+<p>按照数据输入来源的不同，继承于InputStream的子类又可以分为：<br>1.ByteArrayInputStream——内存缓冲区作为来源<br>2.FileInputStream——文件作为来源<br>3.StringBufferInputStream——String作为来源<br>4.PipedInputStream——与PipedOutputStream一起主要用于多线程环境下，实现“管道化”的概念<br>5.SequenceInputStream——将多个InputStream转化为单一InputStream<br>6.ObjectInputStream——与ObjectOutputStream一起主要用于对象的序列化</p>
+<p>与InputStream相对应，OutputStream也是抽象类，继承于OutputStream的子类也可以根据输出目标分为：<br>1.ByteArrayOutputStream——内存缓冲区作为目标<br>2.FileOutputStream——文件作为目标<br>3.PipedOutputStream——与PipedInputStream一起主要用于多线程环境下，实现“管道化”的概念<br>4.ObjectOutputStream——与ObjectInputStream一起主要用于对象的序列化</p>
+<p><strong>简而言之：InputStream与OutputStream就是以字节的方式，将数据从来源写到目标的IO工作流。</strong></p>
+<h3 id="装饰模式的应用"><a href="#装饰模式的应用" class="headerlink" title="装饰模式的应用"></a>装饰模式的应用</h3><p>作为抽象类的InputStream与OutputStream，其实现子类不仅包括上述提及的具体构件，还包括具有装饰功能的抽象装饰类FilterInputStream与FilterOutputStream。<br>为了扩展多种不同的功能，如是否缓冲，是否保留所读过的行等等，JavaIO运用了装饰模式对基础InputStream(OutputStream)进行了扩展<br>根据所需功能的不同，FilterInputStream又可以分为：<br>1.DataInputStream——可以按照可移植方式从流中读取基本数据类型（int,char,long等）<br>2.BufferedInputStream——使用缓冲区<br>3.LineNumberInputStream——跟踪输入流中的行号<br>4.PushBackInputStream——具有“能弹出一个字节的缓冲区”，用于回退读到的最后一个字节</p>
+<p>FilterOutputStream又可以分为：<br>1.DataOutputStream——可以按照可移植方式向流中写入基本数据类型（int,char,long等）<br>2.PrintStream——可以产生格式化输出<br>3.BufferedOutputStream——使用缓冲区</p>
+<p><strong>通过装饰模式，在FilterInputStream(FilterOutputStream)对象的构造器中传入InputStream(OutputStream)子类对象，我们就可以为其扩展相应的功能，常用的是Buffered缓冲功能</strong><br>所以我们会经常看到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BufferedInputStream bi = new BufferedInputStream(new FileInputStream(File file));</span><br></pre></td></tr></table></figure></p>
+<h3 id="适配器模式的运用——基于字符的流：输入流Reader和输出流Writer"><a href="#适配器模式的运用——基于字符的流：输入流Reader和输出流Writer" class="headerlink" title="适配器模式的运用——基于字符的流：输入流Reader和输出流Writer"></a>适配器模式的运用——基于字符的流：输入流Reader和输出流Writer</h3><p>编码问题由来已久，基于字节的InputStream和OutputStream能够很好地处理8位的ASCII字符，但是并不能很好地处理16位的国际化字符Unicode编码，而且Java中的char类型也是16位的，也就是说，Java必须提供一种能够Unicode字符的IO流。我们已经有了基于字节的InputStream与OutputStream，为了可以得到基于字符的Reader和Writer，那么只需要用上适配器模式，添加一个适配器类就可以了。而且通过适配器模式，我们也可以很方便的为InputStream/OutputStream添加多种编码字符格式支持</p>
+<p>在IO中，这个适配器就是InputStreamReader和OutputStreamWriter，可以将InputStream/OutputStream转化为对应的Reader/Writer根据适配器模式图，我们不难理解三者的关系。<br>在JDK8源码中，InputStreamReader的定义及相关构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class InputStreamReader extends Reader&#123;</span><br><span class="line">	//Creates an InputStreamReader that uses the default charset.</span><br><span class="line">	public InputStreamReader(InputStream in)&#123;&#125;</span><br><span class="line"></span><br><span class="line">	//Creates an InputStreamReader that uses the named charset.</span><br><span class="line">	public InputStreamReader(InputStream in, String charsetName)&#123;&#125;</span><br><span class="line"></span><br><span class="line">	//Creates an InputStreamReader that uses the given charset.</span><br><span class="line">	public InputStreamReader(InputStream in, Charset cs)</span><br><span class="line"></span><br><span class="line">	//Creates an InputStreamReader that uses the given charset decoder.</span><br><span class="line">	public InputStreamReader(InputStream in, CharsetDecoder dec)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因此InputStreamReader将InputStream以及特定编码字符集作为输入之后，就可以得到面向字符IO操作的Reader(Writer)了。<br>既然InputStream和OutputStream有众多根据来源去向不同而不同的实现类，以及运用装饰模式的相关类，那么对应的Reader和Writer也会有相应的分类,如BufferedReader、PrintWriter等等。只不过类继承关系会稍有区别。</p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>让我们顺着适配器模式的思路，回过头来看下FileInputStream，是不是也可以认为是一个适配器呢——将处理File的接口，转换为处理InputStream的接口。举一反三，根据适配器模式，我们就已经可以掌握绝大多数基本InputStream/OutputStream/Writer/Reader了；根据装饰模式，我们就可以掌握绝大多数具有扩展功能的InputStream/OutputStream/Writer/Reader了。剩下的问题，就是怎样从众多IO类库中选择并组合出合适IO流的问题了。<br>再看一遍经常碰到的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span><br></pre></td></tr></table></figure></p>
+<p>是否能一眼看出适配器模式与装饰器模式呢？不过在这种设计下，有时候我们只需要某一个单一的流，但是却为了创建这个流而创建了多个对象，虽然灵活但同时也增加了开销。</p>
+<p>更多参考：<br><a href="http://www.importnew.com/23708.html" target="_blank" rel="noopener">Java I/O总结</a></p>
+<h2 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h2><p>除了IO流，<a href="http://docs.oracle.com/javase/8/docs/api/java/io/package-tree.html" target="_blank" rel="noopener">Java IO类库</a>还包括更多的内容<br>，大体上JavaIO类库（本文为java.io包）的内容还可以分为以下几块：<br>1.文件工具类<br>2.序列化与反序列化<br>3.压缩<br>4.NIO</p>
+<h3 id="文件工具类"><a href="#文件工具类" class="headerlink" title="文件工具类"></a>文件工具类</h3><h4 id="File"><a href="#File" class="headerlink" title="File"></a>File</h4><p>在IO中经常要进行文件相关的IO，因此，我们就会很频繁的对文件或者文件目录进行操作，在JavaIO中就提供了File工具类方便我们进行文件目录的相关操作<a href="http://docs.oracle.com/javase/8/docs/api/index.html" target="_blank" rel="noopener">File API</a></p>
+<h4 id="RandomAccessFile"><a href="#RandomAccessFile" class="headerlink" title="RandomAccessFile"></a>RandomAccessFile</h4><p>有时候我们会遇到一些大文件，而我们并不需要完整的将其读出来，而是只需要读取某一部分内容，如果使用传统的InputStream和OutputStream等从头开始读到尾的IO流，明显效率低下。这个时候，我们就可以使用支持随机访问文件内容的RandomAccessFile来实现我们的需求了。不过，RandomAccessFile的绝大多数功能，已经被JDK1.4的nio的”内存映射文件(memory-mapped files)”给取代了。<br>更多参考<a href="http://blog.csdn.net/akon_vm/article/details/7429245" target="_blank" rel="noopener">Java RandomAccessFile用法</a></p>
+<h3 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h3><p>在JVM作用下，当对象不再被使用时，就会被回收。有时候，我们想要保存对象的状态信息，将其写到一个文本文件之类的地方存储，使得重新运行程序时，可以读取文本文件并重建该对象使得其状态与程序上次运行时相同，这时候就可以使用对象序列化技术。<br>在JavaIO类库中，提供了一个接口Serializable，实现了该接口的对象会被转换成一个字节序列，并且能够在以后将这个字节序列完全恢复为原来的对象。</p>
+<blockquote>
+<p>要序列化一个对象，首先要创建某些OutputStream对象，然后将其封装在一个ObjectOutputStream对象内。这时只需调用writeObject()即可将对象序列化，并将其发送给OUtputStream。（对象序列化是基于字节的，因此使用InputStream/OUtputStream继承层次结构）<br>要反序列化一个对象，需要将一个InputStream封装在ObjectInputStream内，然后调用readObject()，最后获得一个Object引用，需要进行向下转型。</p>
+</blockquote>
+<p>更多阅读：<br><a href="http://www.importnew.com/17964.html" target="_blank" rel="noopener">Java对象的序列化与反序列化</a><br><a href="http://www.hollischuang.com/archives/1140" target="_blank" rel="noopener">深入分析Java的序列化与反序列化</a></p>
+<h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>JavaIO类库中也有压缩类以支持读写压缩格式的数据流，需要注意的是，这些压缩类位于java.util.zip包中而不是java.io包中；<br>而且由于这些类继承自FilterInputStream以及FilterOutputStream，这也就意味着这些压缩类是装饰类，在使用时直接包装InputStream/OutputStream对象即可<br><a href="http://blog.csdn.net/hanshileiai/article/details/6718375?reload" target="_blank" rel="noopener">JavaIO压缩流</a></p>
+<h3 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h3><p>通过查看io包的源码，我们会发现一些nio的痕迹，实际上，在jdk1.4时就引入了nio以提高速度，旧的io包也使用nio重新实现了。<br><a href="http://www.yangyong.me/java-nio%E5%85%A5%E9%97%A8%E4%B8%8E%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener">Java NIO入门与详解</a></p>
+<h2 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h2><p>在本文中，先大致了解了两个设计模式：适配器模式，装饰模式，然后从设计模式的角度总结了JavaIO流；接着大致了解了IO类库（io包）中的文件工具类、序列化与反序列化、压缩、NIO等内容。<br>不得不说IO的范围非常地广，不仅涉及磁盘IO，还有网络IO等，可以从非常多的角度去总结，一篇小文章是绝对不够的而且也只能是凤毛菱角的。最后引用<a href="https://www.ibm.com/developerworks/cn/java/j-lo-javaio/#ibm-pcon" target="_blank" rel="noopener">深入分析JavaIO的工作机制</a>一文中的原话做个总结：</p>
+<blockquote>
+<p>I/O 的核心问题要么是数据格式影响 I/O 操作，要么是传输方式影响 I/O 操作，也就是将什么样的数据写到什么地方的问题，I/O 只是人与机器或者机器与机器交互的手段，除了在它们能够完成这个交互功能外，我们关注的就是如何提高它的运行效率了，而数据格式和传输方式是影响效率最关键的因素了.</p>
+</blockquote>
+<p>最后感谢下述内容的提供，让我得以站在巨人的肩膀上：<br>《Java编程思想》<br><a href="https://zhuanlan.zhihu.com/hinus" target="_blank" rel="noopener">进击的Java新人</a><br><a href="http://www.importnew.com/23708.html" target="_blank" rel="noopener">Java I/O总结</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-javaio/#ibm-pcon" target="_blank" rel="noopener">深入分析JavaIO的工作机制</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的欣赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat_pay.png" alt="CafeBeans 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CafeBeans 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CafeBeans
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/" title="JavaI/O体系及当中设计模式的运用">http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/深究多态，为什么说静态成员无多态特性/" rel="next" title="深究多态，为什么说静态成员无多态特性">
+                <i class="fa fa-chevron-left"></i> 深究多态，为什么说静态成员无多态特性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/14/笔记-SQL性能优化/" rel="prev" title="笔记|SQL性能优化">
+                笔记|SQL性能优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="CafeBeans" />
+            
+              <p class="site-author-name" itemprop="name">CafeBeans</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/CafeBeans" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/pang-jue-wei-27" target="_blank" title="知乎">
+                    
+                      <i class="fa fa-fw fa-book"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://music.163.com/#/user/home?id=77815665" target="_blank" title="网易云音乐">
+                    
+                      <i class="fa fa-fw fa-music"></i>网易云音乐</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/b35d4190a575" target="_blank" title="简书">
+                    
+                      <i class="fa fa-fw fa-pencil"></i>简书</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.wmxfe.com/" title="名昕的个人博客" target="_blank">名昕的个人博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式"><span class="nav-number">1.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式——协调互不兼容的结构"><span class="nav-number">1.1.</span> <span class="nav-text">适配器模式——协调互不兼容的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象适配器模式结构图"><span class="nav-number">1.1.2.</span> <span class="nav-text">对象适配器模式结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReadMore"><span class="nav-number">1.1.3.</span> <span class="nav-text">ReadMore</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰模式——扩展系统的功能"><span class="nav-number">1.2.</span> <span class="nav-text">装饰模式——扩展系统的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#装饰模式结构图"><span class="nav-number">1.2.2.</span> <span class="nav-text">装饰模式结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReadMore-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">ReadMore</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-I-O流"><span class="nav-number">2.</span> <span class="nav-text">Java I/O流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流的概念"><span class="nav-number">2.1.</span> <span class="nav-text">流的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于字节的流：输入流InputStream与输出流OutputStream"><span class="nav-number">2.1.1.</span> <span class="nav-text">基于字节的流：输入流InputStream与输出流OutputStream</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰模式的应用"><span class="nav-number">2.2.</span> <span class="nav-text">装饰模式的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式的运用——基于字符的流：输入流Reader和输出流Writer"><span class="nav-number">2.3.</span> <span class="nav-text">适配器模式的运用——基于字符的流：输入流Reader和输出流Writer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多"><span class="nav-number">3.</span> <span class="nav-text">更多</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件工具类"><span class="nav-number">3.1.</span> <span class="nav-text">文件工具类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#File"><span class="nav-number">3.1.1.</span> <span class="nav-text">File</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RandomAccessFile"><span class="nav-number">3.1.2.</span> <span class="nav-text">RandomAccessFile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化与反序列化"><span class="nav-number">3.2.</span> <span class="nav-text">序列化与反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#压缩"><span class="nav-number">3.3.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO"><span class="nav-number">3.4.</span> <span class="nav-text">NIO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结-2"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  
+  <span class="author" itemprop="copyrightHolder">CafeBeans</span>
+  
+</div>
+<div class="powered-by">
+	<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+	本站访客数:<span id="busuanzi_value_site_uv"></span>
+	</span>
+	
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">博客全站共字</span>
+    
+    
+</div>
+<br>
+
+
+
+
+
+
+
+<div class="powered-by">
+	<span class="post-meta-item-text">相识便是缘，感谢一路有你</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("1cwIm1xNLKwJeX3t0HJlDnvW-gzGzoHsz", "EL5hsMfIfyHcVeY90H95xLm8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
