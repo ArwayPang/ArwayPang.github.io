@@ -5,9 +5,9 @@
   <subtitle>世事洞明皆学问，人情练达即文章</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://cafebeans.com/"/>
+  <link href="https://cafebeans.github.io/"/>
   <updated>2017-11-25T05:13:08.687Z</updated>
-  <id>http://cafebeans.com/</id>
+  <id>https://cafebeans.github.io/</id>
   
   <author>
     <name>CafeBeans</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>跳出舒适区-入坑Ubuntu折腾记</title>
-    <link href="http://cafebeans.com/2017/11/20/%E8%B7%B3%E5%87%BA%E8%88%92%E9%80%82%E5%8C%BA-%E5%85%A5%E5%9D%91Ubuntu%E6%8A%98%E8%85%BE%E8%AE%B0/"/>
-    <id>http://cafebeans.com/2017/11/20/跳出舒适区-入坑Ubuntu折腾记/</id>
+    <link href="https://cafebeans.github.io/2017/11/20/%E8%B7%B3%E5%87%BA%E8%88%92%E9%80%82%E5%8C%BA-%E5%85%A5%E5%9D%91Ubuntu%E6%8A%98%E8%85%BE%E8%AE%B0/"/>
+    <id>https://cafebeans.github.io/2017/11/20/跳出舒适区-入坑Ubuntu折腾记/</id>
     <published>2017-11-20T15:21:20.000Z</published>
     <updated>2017-11-25T05:13:08.687Z</updated>
     
@@ -32,18 +32,18 @@
     </summary>
     
     
-      <category term="Ubuntu" scheme="http://cafebeans.com/tags/Ubuntu/"/>
+      <category term="Ubuntu" scheme="https://cafebeans.github.io/tags/Ubuntu/"/>
     
-      <category term="Linux" scheme="http://cafebeans.com/tags/Linux/"/>
+      <category term="Linux" scheme="https://cafebeans.github.io/tags/Linux/"/>
     
-      <category term="工具" scheme="http://cafebeans.com/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="https://cafebeans.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
     <title>拜读《乌合之众：大众心理学研究》——我所理解的大众心理</title>
-    <link href="http://cafebeans.com/2017/11/13/%E6%8B%9C%E8%AF%BB%E3%80%8A%E4%B9%8C%E5%90%88%E4%B9%8B%E4%BC%97%EF%BC%9A%E5%A4%A7%E4%BC%97%E5%BF%83%E7%90%86%E5%AD%A6%E7%A0%94%E7%A9%B6%E3%80%8B%E2%80%94%E2%80%94%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E5%A4%A7%E4%BC%97%E5%BF%83%E7%90%86/"/>
-    <id>http://cafebeans.com/2017/11/13/拜读《乌合之众：大众心理学研究》——我所理解的大众心理/</id>
+    <link href="https://cafebeans.github.io/2017/11/13/%E6%8B%9C%E8%AF%BB%E3%80%8A%E4%B9%8C%E5%90%88%E4%B9%8B%E4%BC%97%EF%BC%9A%E5%A4%A7%E4%BC%97%E5%BF%83%E7%90%86%E5%AD%A6%E7%A0%94%E7%A9%B6%E3%80%8B%E2%80%94%E2%80%94%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E5%A4%A7%E4%BC%97%E5%BF%83%E7%90%86/"/>
+    <id>https://cafebeans.github.io/2017/11/13/拜读《乌合之众：大众心理学研究》——我所理解的大众心理/</id>
     <published>2017-11-13T03:02:30.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -60,21 +60,21 @@
     
     </summary>
     
-      <category term="心得体会" scheme="http://cafebeans.com/categories/%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"/>
+      <category term="心得体会" scheme="https://cafebeans.github.io/categories/%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/"/>
     
     
-      <category term="阅读" scheme="http://cafebeans.com/tags/%E9%98%85%E8%AF%BB/"/>
+      <category term="阅读" scheme="https://cafebeans.github.io/tags/%E9%98%85%E8%AF%BB/"/>
     
-      <category term="心理学" scheme="http://cafebeans.com/tags/%E5%BF%83%E7%90%86%E5%AD%A6/"/>
+      <category term="心理学" scheme="https://cafebeans.github.io/tags/%E5%BF%83%E7%90%86%E5%AD%A6/"/>
     
-      <category term="社会现象" scheme="http://cafebeans.com/tags/%E7%A4%BE%E4%BC%9A%E7%8E%B0%E8%B1%A1/"/>
+      <category term="社会现象" scheme="https://cafebeans.github.io/tags/%E7%A4%BE%E4%BC%9A%E7%8E%B0%E8%B1%A1/"/>
     
   </entry>
   
   <entry>
     <title>实习小结</title>
-    <link href="http://cafebeans.com/2017/08/29/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%93/"/>
-    <id>http://cafebeans.com/2017/08/29/实习小结/</id>
+    <link href="https://cafebeans.github.io/2017/08/29/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%93/"/>
+    <id>https://cafebeans.github.io/2017/08/29/实习小结/</id>
     <published>2017-08-29T15:39:29.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -86,17 +86,17 @@
     
     </summary>
     
-      <category term="心情随笔" scheme="http://cafebeans.com/categories/%E5%BF%83%E6%83%85%E9%9A%8F%E7%AC%94/"/>
+      <category term="心情随笔" scheme="https://cafebeans.github.io/categories/%E5%BF%83%E6%83%85%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="随笔" scheme="http://cafebeans.com/tags/%E9%9A%8F%E7%AC%94/"/>
+      <category term="随笔" scheme="https://cafebeans.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
   <entry>
     <title>KMP算法解惑及代码实现</title>
-    <link href="http://cafebeans.com/2017/08/06/KMP%E8%A7%A3%E6%83%91%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://cafebeans.com/2017/08/06/KMP解惑及代码实现/</id>
+    <link href="https://cafebeans.github.io/2017/08/06/KMP%E8%A7%A3%E6%83%91%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://cafebeans.github.io/2017/08/06/KMP解惑及代码实现/</id>
     <published>2017-08-06T12:40:46.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -108,17 +108,17 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="算法" scheme="http://cafebeans.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="https://cafebeans.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>经典内部排序算法学习总结——算法思想、可视化、Java代码实现、改进、复杂度分析、稳定性分析</title>
-    <link href="http://cafebeans.com/2017/07/17/%E7%BB%8F%E5%85%B8%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E2%80%94%E2%80%94%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%81Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E3%80%81%E6%94%B9%E8%BF%9B%E3%80%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90%E3%80%81%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%88%86%E6%9E%90/"/>
-    <id>http://cafebeans.com/2017/07/17/经典内部排序算法学习总结——算法思想、可视化、Java代码实现、改进、复杂度分析、稳定性分析/</id>
+    <link href="https://cafebeans.github.io/2017/07/17/%E7%BB%8F%E5%85%B8%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E2%80%94%E2%80%94%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%81Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E3%80%81%E6%94%B9%E8%BF%9B%E3%80%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90%E3%80%81%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%88%86%E6%9E%90/"/>
+    <id>https://cafebeans.github.io/2017/07/17/经典内部排序算法学习总结——算法思想、可视化、Java代码实现、改进、复杂度分析、稳定性分析/</id>
     <published>2017-07-17T14:25:37.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -130,17 +130,17 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="算法" scheme="http://cafebeans.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="https://cafebeans.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>《深入理解Java虚拟机——自动内存管理机制》笔记与心得</title>
-    <link href="http://cafebeans.com/2017/07/08/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E2%80%94%E2%80%94%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E3%80%8B%E5%BF%83%E5%BE%97/"/>
-    <id>http://cafebeans.com/2017/07/08/《深入理解Java虚拟机——自动内存管理机制》心得/</id>
+    <link href="https://cafebeans.github.io/2017/07/08/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E2%80%94%E2%80%94%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E3%80%8B%E5%BF%83%E5%BE%97/"/>
+    <id>https://cafebeans.github.io/2017/07/08/《深入理解Java虚拟机——自动内存管理机制》心得/</id>
     <published>2017-07-08T14:22:27.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -152,17 +152,17 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="JVM" scheme="http://cafebeans.com/tags/JVM/"/>
+      <category term="JVM" scheme="https://cafebeans.github.io/tags/JVM/"/>
     
   </entry>
   
   <entry>
     <title>Java Comparator的运用|把数组排成最小的数</title>
-    <link href="http://cafebeans.com/2017/06/21/Java%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AF%94%E8%BE%83%E5%99%A8%E7%9A%84%E8%BF%90%E7%94%A8/"/>
-    <id>http://cafebeans.com/2017/06/21/Java自定义比较器的运用/</id>
+    <link href="https://cafebeans.github.io/2017/06/21/Java%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AF%94%E8%BE%83%E5%99%A8%E7%9A%84%E8%BF%90%E7%94%A8/"/>
+    <id>https://cafebeans.github.io/2017/06/21/Java自定义比较器的运用/</id>
     <published>2017-06-21T03:00:38.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -178,19 +178,19 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="Java" scheme="http://cafebeans.com/tags/Java/"/>
+      <category term="Java" scheme="https://cafebeans.github.io/tags/Java/"/>
     
-      <category term="设计模式" scheme="http://cafebeans.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://cafebeans.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>笔记|SQL性能优化</title>
-    <link href="http://cafebeans.com/2017/06/14/%E7%AC%94%E8%AE%B0-SQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    <id>http://cafebeans.com/2017/06/14/笔记-SQL性能优化/</id>
+    <link href="https://cafebeans.github.io/2017/06/14/%E7%AC%94%E8%AE%B0-SQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <id>https://cafebeans.github.io/2017/06/14/笔记-SQL性能优化/</id>
     <published>2017-06-14T01:47:48.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -202,19 +202,19 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="性能调优" scheme="http://cafebeans.com/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"/>
+      <category term="性能调优" scheme="https://cafebeans.github.io/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"/>
     
-      <category term="MySQL" scheme="http://cafebeans.com/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://cafebeans.github.io/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>JavaI/O体系及当中设计模式的运用</title>
-    <link href="http://cafebeans.com/2017/06/12/JavaI-O%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://cafebeans.com/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/</id>
+    <link href="https://cafebeans.github.io/2017/06/12/JavaI-O%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://cafebeans.github.io/2017/06/12/JavaI-O中的设计模式——适配器模式、装饰器模式/</id>
     <published>2017-06-12T15:20:38.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -226,19 +226,19 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="Java" scheme="http://cafebeans.com/tags/Java/"/>
+      <category term="Java" scheme="https://cafebeans.github.io/tags/Java/"/>
     
-      <category term="设计模式" scheme="http://cafebeans.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://cafebeans.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>深究多态，为什么说静态成员无多态特性</title>
-    <link href="http://cafebeans.com/2017/06/07/%E6%B7%B1%E7%A9%B6%E5%A4%9A%E6%80%81%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E6%97%A0%E5%A4%9A%E6%80%81%E7%89%B9%E6%80%A7/"/>
-    <id>http://cafebeans.com/2017/06/07/深究多态，为什么说静态成员无多态特性/</id>
+    <link href="https://cafebeans.github.io/2017/06/07/%E6%B7%B1%E7%A9%B6%E5%A4%9A%E6%80%81%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E6%97%A0%E5%A4%9A%E6%80%81%E7%89%B9%E6%80%A7/"/>
+    <id>https://cafebeans.github.io/2017/06/07/深究多态，为什么说静态成员无多态特性/</id>
     <published>2017-06-06T17:07:17.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -250,17 +250,17 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="Java" scheme="http://cafebeans.com/tags/Java/"/>
+      <category term="Java" scheme="https://cafebeans.github.io/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>一场校招准备分享的笔记与心得</title>
-    <link href="http://cafebeans.com/2017/06/05/%E6%A0%A1%E6%8B%9B%E5%87%86%E5%A4%87/"/>
-    <id>http://cafebeans.com/2017/06/05/校招准备/</id>
+    <link href="https://cafebeans.github.io/2017/06/05/%E6%A0%A1%E6%8B%9B%E5%87%86%E5%A4%87/"/>
+    <id>https://cafebeans.github.io/2017/06/05/校招准备/</id>
     <published>2017-06-05T04:36:16.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -272,17 +272,17 @@
     
     </summary>
     
-      <category term="分享整理" scheme="http://cafebeans.com/categories/%E5%88%86%E4%BA%AB%E6%95%B4%E7%90%86/"/>
+      <category term="分享整理" scheme="https://cafebeans.github.io/categories/%E5%88%86%E4%BA%AB%E6%95%B4%E7%90%86/"/>
     
     
-      <category term="整理" scheme="http://cafebeans.com/tags/%E6%95%B4%E7%90%86/"/>
+      <category term="整理" scheme="https://cafebeans.github.io/tags/%E6%95%B4%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>聊聊单例</title>
-    <link href="http://cafebeans.com/2017/06/04/%E8%81%8A%E8%81%8A%E5%8D%95%E4%BE%8B/"/>
-    <id>http://cafebeans.com/2017/06/04/聊聊单例/</id>
+    <link href="https://cafebeans.github.io/2017/06/04/%E8%81%8A%E8%81%8A%E5%8D%95%E4%BE%8B/"/>
+    <id>https://cafebeans.github.io/2017/06/04/聊聊单例/</id>
     <published>2017-06-04T02:36:13.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -294,19 +294,19 @@
     
     </summary>
     
-      <category term="技术探究" scheme="http://cafebeans.com/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
+      <category term="技术探究" scheme="https://cafebeans.github.io/categories/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/"/>
     
     
-      <category term="Java" scheme="http://cafebeans.com/tags/Java/"/>
+      <category term="Java" scheme="https://cafebeans.github.io/tags/Java/"/>
     
-      <category term="设计模式" scheme="http://cafebeans.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://cafebeans.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>願我走出半生，归来仍是少年</title>
-    <link href="http://cafebeans.com/2017/06/01/%E6%84%BF%E6%88%91%E8%B5%B0%E5%87%BA%E5%8D%8A%E7%94%9F%EF%BC%8C%E5%BD%92%E6%9D%A5%E4%BB%8D%E6%98%AF%E5%B0%91%E5%B9%B4/"/>
-    <id>http://cafebeans.com/2017/06/01/愿我走出半生，归来仍是少年/</id>
+    <link href="https://cafebeans.github.io/2017/06/01/%E6%84%BF%E6%88%91%E8%B5%B0%E5%87%BA%E5%8D%8A%E7%94%9F%EF%BC%8C%E5%BD%92%E6%9D%A5%E4%BB%8D%E6%98%AF%E5%B0%91%E5%B9%B4/"/>
+    <id>https://cafebeans.github.io/2017/06/01/愿我走出半生，归来仍是少年/</id>
     <published>2017-06-01T15:35:22.000Z</published>
     <updated>2017-11-20T15:12:22.855Z</updated>
     
@@ -318,10 +318,10 @@
     
     </summary>
     
-      <category term="心情随笔" scheme="http://cafebeans.com/categories/%E5%BF%83%E6%83%85%E9%9A%8F%E7%AC%94/"/>
+      <category term="心情随笔" scheme="https://cafebeans.github.io/categories/%E5%BF%83%E6%83%85%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="随笔" scheme="http://cafebeans.com/tags/%E9%9A%8F%E7%AC%94/"/>
+      <category term="随笔" scheme="https://cafebeans.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
